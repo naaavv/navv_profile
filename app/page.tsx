@@ -272,7 +272,7 @@ export default function Portfolio() {
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[
                  {
-                  title: "Task Management",
+                  title: "Elite Social Club Website",
                   category: "Web Development",
                   image: "/placeholder.svg?height=300&width=400",
                 },
@@ -287,6 +287,8 @@ export default function Portfolio() {
             <TabsContent value="web" className="mt-8">
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Web projects would be filtered here */}
+
+                
               </div>
             </TabsContent>
 
