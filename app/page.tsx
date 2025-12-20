@@ -301,6 +301,11 @@ export default function Portfolio() {
                     category: "Desktop Development",
                     image: "/calcx_image.png?height=250&width=350",
                   },
+                  {
+                    title: "SecurePassPro",
+                    category: "Desktop Development",
+                    image: "/mockup.png?height=250&width=350",
+                  },
                 ].map((project, index) => (
                   <ProjectCard key={index} project={project} index={index} />
                 ))}
