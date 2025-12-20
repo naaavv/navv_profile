@@ -566,6 +566,7 @@ interface Project {
   title: string;
   category: string;
   image: string;
+  download?: string;
 }
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
@@ -605,6 +606,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     >
       <ExternalLink className="w-4 h-4" /> Demo
     </Button>
+    {project.download && (
+      <a
+        href={project.download}
+        download
+        className="flex items-center gap-2 rounded-xl border-green-400/40 bg-green-500/10 backdrop-blur-md text-white hover:bg-green-500/20 hover:scale-105 transition-transform duration-300 px-4 py-2 text-sm border outline-none"
+        style={{ textDecoration: "none" }}
+      >
+        <ArrowDown className="w-4 h-4" /> Download
+      </a>
+    )}
   </div>
 </div>
 
