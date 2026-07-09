@@ -1,8 +1,5 @@
-const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: isGithubActions ? 'export' : undefined,
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -12,6 +9,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+}
+
+// Only add static export when running on GitHub Actions (for GitHub Pages)
+if (process.env.GITHUB_ACTIONS === 'true') {
+  nextConfig.output = 'export'
 }
 
 export default nextConfig
