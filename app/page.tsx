@@ -269,7 +269,7 @@ export default function Portfolio() {
                 <img 
                   src="/profile.jpg" 
                   alt="Nav Raj Basnet" 
-                  className="w-full h-full object-cover rounded-xl filter grayscale contrast-110 opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                  className="w-full h-full object-cover rounded-xl opacity-90 hover:opacity-100 hover:scale-[1.01] transition-all duration-500"
                   onError={(e) => {
                     e.currentTarget.src = "/placeholder.svg"
                   }}
@@ -420,7 +420,7 @@ export default function Portfolio() {
                       <img 
                         src={proj.image} 
                         alt={proj.title}
-                        className="w-full h-full object-cover filter grayscale contrast-110 opacity-60 group-hover:opacity-100 group-hover:scale-[1.01] transition-all duration-500"
+                        className="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.01] transition-all duration-500"
                         onError={(e) => {
                           e.currentTarget.src = "/placeholder.svg"
                         }}
