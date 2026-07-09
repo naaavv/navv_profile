@@ -1,367 +1,203 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { ArrowLeft, Download, ExternalLink, Mail, MapPin, Phone } from "lucide-react"
+import { ArrowLeft, Printer } from "lucide-react"
 import Link from "next/link"
-
 import { Button } from "@/components/ui/button"
 
 export default function ResumePage() {
+  const handlePrint = () => {
+    window.print()
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-zinc-900 to-black text-white">
-      {/* Header */}
-      <header className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-[#121212] text-white antialiased font-sans selection:bg-white selection:text-black print:bg-white print:text-black">
+      
+      {/* Header (Hidden in Print) */}
+      <header className="max-w-3xl mx-auto px-6 py-12 border-b border-[#2A2A2A]/40 print:hidden">
         <div className="flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-2">
-            <motion.div initial={{ x: -10, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.5 }}>
-              <ArrowLeft className="w-5 h-5" />
-            </motion.div>
-            <motion.span
-              initial={{ x: -10, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-medium"
-            >
-              Back to Portfolio
-            </motion.span>
+          <Link href="/" className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-[#8E8E93] hover:text-white transition-colors">
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Back</span>
           </Link>
-          <motion.div initial={{ y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }}>
-            <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
-              <Download className="w-4 h-4 mr-2" /> Download Resume
-            </Button>
-          </motion.div>
+          <Button 
+            onClick={handlePrint}
+            variant="outline" 
+            className="bg-transparent border-[#2A2A2A] text-[10px] uppercase tracking-[0.2em] text-white hover:bg-white hover:text-black hover:border-white rounded-xl h-10 px-5 transition-all duration-300"
+          >
+            <Printer className="w-3.5 h-3.5 mr-2" /> Print / PDF
+          </Button>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="bg-zinc-800/50 rounded-xl border border-white/10 overflow-hidden">
-          {/* Resume Header */}
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 p-8 md:p-12"
-          >
-            <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
-              <div className="w-32 h-32 rounded-full border-4 border-purple-500 overflow-hidden flex-shrink-0">
-                <img src="/profile.jpg?height=128&width=128" alt="NAV" className="w-full h-full object-cover" />
-              </div>
-              <div className="text-center md:text-left">
-                <h1 className="text-4xl font-bold mb-2">
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500">
-                    NAV
-                  </span>
-                </h1>
-                <h2 className="text-xl mb-4">Senior Game Developer</h2>
-                <p className="text-white/80 max-w-2xl mb-6">
-                  Passionate and creative frontend developer with 5+ years of experience building modern, responsive web
-                  applications. Specialized in React, Next.js, and modern JavaScript frameworks with a strong focus on
-                  user experience and performance optimization.
-                </p>
-                <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                  <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-purple-400" />
-                    <span className="text-white/80">basnetnavraj4@gmail.com</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4 text-purple-400" />
-                    <span className="text-white/80">+977 9864726814</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-purple-400" />
-                    <span className="text-white/80">Nepalgunj, Nepal</span>
-                  </div>
+      {/* Main Resume Container */}
+      <main className="max-w-3xl mx-auto px-6 py-16 print:py-0 print:px-0">
+        
+        {/* Name and Tagline */}
+        <div className="space-y-6 pb-12 border-b border-[#2A2A2A]/40 print:mb-8 print:pb-6">
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
+            <h1 className="text-3xl sm:text-5xl font-normal tracking-tight text-white leading-none print:text-black">
+              NAV RAJ BASNET
+            </h1>
+            <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93] print:text-zinc-500">
+              Curriculum Vitae
+            </span>
+          </div>
+
+          <h2 className="text-base text-[#8E8E93] font-light print:text-zinc-600">
+            Software Engineer & Game Developer
+          </h2>
+
+          <p className="text-xs sm:text-sm text-[#8E8E93] leading-relaxed font-light print:text-zinc-600 max-w-2xl">
+            CSIT undergraduate specializing in clean system designs, high-performance modular scripting, and interactive software architectures. Over 5 years of active coding experience spanning game engines, desktop modules, and client-side applications.
+          </p>
+
+          {/* Contact details row */}
+          <div className="flex flex-wrap gap-x-6 gap-y-2 pt-2 text-xs text-[#8E8E93] print:text-zinc-600 font-light">
+            <span>basnetnavraj4@gmail.com</span>
+            <span>+977 9864726814</span>
+            <span>Nepalgunj, Nepal</span>
+          </div>
+        </div>
+
+        {/* Sections */}
+        <div className="grid md:grid-cols-12 gap-12 pt-12 print:grid-cols-12 print:gap-8 print:pt-6">
+          
+          {/* Left Column */}
+          <div className="md:col-span-4 space-y-10 print:col-span-4">
+            
+            {/* Skills */}
+            <div className="space-y-4">
+              <h3 className="text-[10px] uppercase tracking-[0.2em] text-white font-bold pb-1 border-b border-[#2A2A2A]/40 print:text-black print:border-zinc-200">
+                Skills
+              </h3>
+              <div className="space-y-3 text-xs font-light">
+                <div>
+                  <span className="text-[#8E8E93] block print:text-zinc-500">Frontend</span>
+                  <span className="text-white print:text-black mt-0.5 block">React, Next.js, TS, Tailwind CSS</span>
+                </div>
+                <div>
+                  <span className="text-[#8E8E93] block print:text-zinc-500">Backend</span>
+                  <span className="text-white print:text-black mt-0.5 block">Node.js, Express, REST APIs</span>
+                </div>
+                <div>
+                  <span className="text-[#8E8E93] block print:text-zinc-500">Systems & Mobile</span>
+                  <span className="text-white print:text-black mt-0.5 block">Unity Engine, WPF, React Native</span>
+                </div>
+                <div>
+                  <span className="text-[#8E8E93] block print:text-zinc-500">Tools</span>
+                  <span className="text-white print:text-black mt-0.5 block">Git, GitHub, Docker, AWS Core</span>
                 </div>
               </div>
             </div>
-          </motion.div>
-
-          {/* Resume Content */}
-          <div className="p-8 md:p-12 space-y-10">
-            {/* Work Experience */}
-            <ResumeSection title="Work Experience" delay={0.1}>
-              <div className="space-y-8">
-                <ExperienceItem
-                  title="Senior Game Developer"
-                  company="AnyX Inc."
-                  period="2021 - Present"
-                  location="Kathmandu, Nepal"
-                  delay={0.2}
-                >
-                  <ul className="list-disc pl-5 space-y-2 text-white/80">
-                    <li>
-                      Led the frontend development of the company's flagship product, resulting in a 40% increase in
-                      user engagement.
-                    </li>
-                    <li>
-                      Implemented modern React architecture with Next.js, improving page load times by 60% and SEO
-                      rankings.
-                    </li>
-                    <li>
-                      Mentored junior developers and established frontend best practices and coding standards for the
-                      team.
-                    </li>
-                    <li>
-                      Collaborated with UX/UI designers to implement responsive designs and ensure accessibility
-                      compliance.
-                    </li>
-                  </ul>
-                </ExperienceItem>
-
-              
-              </div>
-            </ResumeSection>
-
-            {/* Education */}
-            <ResumeSection title="Education" delay={0.5}>
-              <div className="space-y-6">
-                <ExperienceItem
-                  title="Master of Computer Science"
-                  company="N/A"
-                  period="N/A"
-                  location="N/A"
-                  delay={0.6}
-                >
-                  <p className="text-white/80">
-                    Specialized in Human-Computer Interaction and Web Technologies. Graduated with honors.
-                  </p>
-                </ExperienceItem>
-
-                <ExperienceItem
-                  title="Bachelor of Science in Computer Science and Information Technology"
-                  company="TU University"
-                  period="2024 - Running"
-                  location="Kathmandu, Nepal"
-                  delay={0.7}
-                >
-                  <p className="text-white/80">
-                    Focused on Software Engineering and Web Development. Dean's List for all semesters.
-                  </p>
-                </ExperienceItem>
-              </div>
-            </ResumeSection>
-
-            {/* Skills */}
-            <ResumeSection title="Skills" delay={0.8}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <SkillCategory title="Frontend Development" delay={0.9}>
-                  <SkillItem name="HTML5/CSS3" level={55} />
-                  <SkillItem name="JavaScript (ES6+)" level={40} />
-                  <SkillItem name="React.js" level={35} />
-                  <SkillItem name="Next.js" level={20} />
-                  <SkillItem name="TypeScript" level={45} />
-                  <SkillItem name="Tailwind CSS" level={10} />
-                </SkillCategory>
-
-                <SkillCategory title="Backend & Tools" delay={1.0}>
-                  <SkillItem name="Node.js" level={30} />
-                  <SkillItem name="RESTful APIs" level={35} />
-                  <SkillItem name="Unity" level={85} />
-                  <SkillItem name="Git/GitHub" level={70} />
-                  <SkillItem name="Docker" level={20} />
-                  <SkillItem name="Unreal Engine" level={55} />
-                </SkillCategory>
-
-                <SkillCategory title="Soft Skills" delay={1.2}>
-                  <SkillItem name="Communication" level={90} />
-                  <SkillItem name="Team Leadership" level={85} />
-                  <SkillItem name="Problem Solving" level={95} />
-                  <SkillItem name="Time Management" level={85} />
-                  <SkillItem name="Agile Methodologies" level={90} />
-                </SkillCategory>
-              </div>
-            </ResumeSection>
 
             {/* Certifications */}
-            <ResumeSection title="Certifications & Awards" delay={1.3}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  {
-                    title: "AWS Certified Developer",
-                    issuer: "Amazon Web Services",
-                    date: "2022",
-                    link: "#",
-                  },
-            
-                  {
-                    title: "Best Game Developer Award",
-                    issuer: "GameDev Conference",
-                    date: "2029",
-                    link: "#",
-                  },
-                ].map((cert, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 1.4 + index * 0.1 }}
-                    className="flex items-start gap-4 bg-zinc-700/20 p-4 rounded-lg border border-white/5"
-                  >
-                    <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-500 flex-shrink-0">
-                      {index % 2 === 0 ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M12.3 2.9c.7-.7 1.7-.7 2.4 0l6.4 6.4c.7.7.7 1.7 0 2.4l-6.4 6.4c-.7.7-1.7.7-2.4 0l-6.4-6.4c-.7-.7-.7-1.7 0-2.4z" />
-                          <path d="M17 8l-5 5" />
-                          <path d="M12 16v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h4" />
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M8.21 13.89 7 23l-5-1 9.34-9.34a15.52 15.52 0 0 0 5.64 5.64L8.21 13.89zm0 0L3 13l10-10 1 5-5.79 5.89z" />
-                        </svg>
-                      )}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-semibold">{cert.title}</h4>
-                        <a href={cert.link} className="text-purple-400 hover:text-purple-300">
-                          <ExternalLink className="w-4 h-4" />
-                        </a>
-                      </div>
-                      <p className="text-white/60 text-sm">
-                        {cert.issuer} • {cert.date}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
+            <div className="space-y-4">
+              <h3 className="text-[10px] uppercase tracking-[0.2em] text-white font-bold pb-1 border-b border-[#2A2A2A]/40 print:text-black print:border-zinc-200">
+                Certs
+              </h3>
+              <div className="space-y-3 text-xs font-light">
+                <div>
+                  <span className="text-white print:text-black block">AWS Certified Developer</span>
+                  <span className="text-[#8E8E93] print:text-zinc-500">Amazon Web Services • 2022</span>
+                </div>
+                <div>
+                  <span className="text-white print:text-black block">Best Game Developer Award</span>
+                  <span className="text-[#8E8E93] print:text-zinc-500">GameDev Conference • 2029</span>
+                </div>
               </div>
-            </ResumeSection>
+            </div>
 
             {/* Languages */}
-            <ResumeSection title="Languages" delay={1.8}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {[
-                  { language: "Nepal", level: "Native", proficiency: 100 },
-                  { language: "English", level: "Native", proficiency: 100 },
-                  { language: "Spanish", level: "Fluent", proficiency: 85 },
-                  { language: "French", level: "Intermediate", proficiency: 60 },
-                ].map((lang, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 1.9 + index * 0.1 }}
-                    className="bg-zinc-700/20 p-4 rounded-lg border border-white/5"
-                  >
-                    <div className="flex justify-between mb-2">
-                      <h4 className="font-semibold">{lang.language}</h4>
-                      <span className="text-white/60 text-sm">{lang.level}</span>
-                    </div>
-                    <div className="h-2 bg-zinc-700 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
-                        style={{ width: `${lang.proficiency}%` }}
-                      ></div>
-                    </div>
-                  </motion.div>
-                ))}
+            <div className="space-y-4">
+              <h3 className="text-[10px] uppercase tracking-[0.2em] text-white font-bold pb-1 border-b border-[#2A2A2A]/40 print:text-black print:border-zinc-200">
+                Languages
+              </h3>
+              <div className="space-y-2 text-xs font-light">
+                <div className="flex justify-between">
+                  <span className="text-white print:text-black">Nepali</span>
+                  <span className="text-[#8E8E93] print:text-zinc-500">Native</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white print:text-black">English</span>
+                  <span className="text-[#8E8E93] print:text-zinc-500">Fluent</span>
+                </div>
               </div>
-            </ResumeSection>
+            </div>
+
+          </div>
+
+          {/* Right Column */}
+          <div className="md:col-span-8 space-y-10 print:col-span-8">
+            
+            {/* Experience */}
+            <div className="space-y-6">
+              <h3 className="text-[10px] uppercase tracking-[0.2em] text-white font-bold pb-1 border-b border-[#2A2A2A]/40 print:text-black print:border-zinc-200">
+                Experience
+              </h3>
+
+              <div className="space-y-6">
+                <div className="space-y-1 text-xs">
+                  <div className="flex justify-between items-baseline">
+                    <h4 className="font-medium text-white print:text-black text-sm">Senior Game Developer</h4>
+                    <span className="text-[#8E8E93] print:text-zinc-500">2021 — Present</span>
+                  </div>
+                  <p className="text-[#8E8E93] print:text-zinc-400 font-light">AnyX Inc. • Kathmandu, Nepal</p>
+                  <p className="text-[#8E8E93] print:text-zinc-600 font-light pt-1 leading-relaxed">
+                    Led layout and UI configuration using clean hooks. Optimized rendering parameters, improving static and interactive response benchmarks. Mentored teammates on Git structure guidelines.
+                  </p>
+                </div>
+
+                <div className="space-y-1 text-xs">
+                  <div className="flex justify-between items-baseline">
+                    <h4 className="font-medium text-white print:text-black text-sm">Full-Stack Engineer</h4>
+                    <span className="text-[#8E8E93] print:text-zinc-500">2019 — 2021</span>
+                  </div>
+                  <p className="text-[#8E8E93] print:text-zinc-400 font-light">Freelance Clients • Self-Employed</p>
+                  <p className="text-[#8E8E93] print:text-zinc-600 font-light pt-1 leading-relaxed">
+                    Built custom WPF desktop tools and localized SQLite database storage setups for concurrent workflows.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Education */}
+            <div className="space-y-6">
+              <h3 className="text-[10px] uppercase tracking-[0.2em] text-white font-bold pb-1 border-b border-[#2A2A2A]/40 print:text-black print:border-zinc-200">
+                Education
+              </h3>
+
+              <div className="space-y-4">
+                <div className="space-y-1 text-xs">
+                  <div className="flex justify-between items-baseline">
+                    <h4 className="font-medium text-white print:text-black">B.Sc. in Computer Science & IT</h4>
+                    <span className="text-[#8E8E93] print:text-zinc-500">2024 — Running</span>
+                  </div>
+                  <p className="text-[#8E8E93] print:text-zinc-400 font-light">Tribhuvan University • Kathmandu, Nepal</p>
+                </div>
+              </div>
+            </div>
 
             {/* References */}
-            <ResumeSection title="References" delay={2.2}>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 2.3 }}
-                className="text-white/80 italic"
-              >
-                Professional references are available upon request.
-              </motion.p>
-            </ResumeSection>
+            <div className="space-y-2">
+              <h3 className="text-[10px] uppercase tracking-[0.2em] text-white font-bold pb-1 border-b border-[#2A2A2A]/40 print:text-black print:border-zinc-200">
+                References
+              </h3>
+              <p className="text-xs text-[#8E8E93] italic font-light print:text-zinc-500">
+                Available upon request.
+              </p>
+            </div>
+
           </div>
+
         </div>
+
       </main>
 
       {/* Footer */}
-      <footer className="container mx-auto px-4 py-8 text-center text-white/60">
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 2.4 }}>
-          © {new Date().getFullYear()} NAV. All rights reserved.
-        </motion.p>
+      <footer className="max-w-3xl mx-auto px-6 py-12 text-center text-[10px] uppercase tracking-[0.15em] text-[#8E8E93] border-t border-[#2A2A2A]/40 mt-12 print:hidden">
+        <p>© {new Date().getFullYear()} NAV RAJ BASNET. All rights reserved.</p>
       </footer>
-    </div>
-  )
-}
 
-// Helper Components
-function ResumeSection({ title, children, delay = 0 }: { title: string; children: React.ReactNode; delay?: number }) {
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay }}>
-      <h2 className="text-2xl font-bold mb-6 relative inline-block">
-        {title}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500 transform translate-y-2"></div>
-      </h2>
-      {children}
-    </motion.div>
-  )
-}
-
-function ExperienceItem({ title, company, period, location, children, delay = 0 }: { title: string; company: string; period: string; location: string; children: React.ReactNode; delay?: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay }}
-      className="border-l-2 border-purple-500 pl-6 relative"
-    >
-      <div className="absolute w-4 h-4 bg-purple-500 rounded-full -left-[9px] top-1"></div>
-      <div className="mb-2">
-        <h3 className="text-xl font-semibold">{title}</h3>
-        <div className="flex flex-wrap gap-2 text-white/60 text-sm">
-          <span>{company}</span>
-          <span className="hidden sm:inline">•</span>
-          <span>{period}</span>
-          <span className="hidden sm:inline">•</span>
-          <span>{location}</span>
-        </div>
-      </div>
-      <div className="mt-3">{children}</div>
-    </motion.div>
-  )
-}
-
-function SkillCategory({ title, children, delay = 0 }: { title: string; children: React.ReactNode; delay?: number }) {
-  return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay }}>
-      <h3 className="font-semibold mb-4 text-lg">{title}</h3>
-      <div className="space-y-3">{children}</div>
-    </motion.div>
-  )
-}
-
-function SkillItem({ name, level }: { name: string; level: number }) {
-  return (
-    <div>
-      <div className="flex justify-between mb-1">
-        <span className="text-white/80">{name}</span>
-        <span className="text-white/60 text-sm">{level}%</span>
-      </div>
-      <div className="h-2 bg-zinc-700 rounded-full overflow-hidden">
-        <div
-          className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
-          style={{ width: `${level}%` }}
-        ></div>
-      </div>
     </div>
   )
 }

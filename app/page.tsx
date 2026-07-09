@@ -1,713 +1,603 @@
 "use client"
 
-import { useState } from "react"
-
-
-
-import { useEffect, useRef } from "react"
-
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
-import { ArrowDown, Code, ExternalLink, Github, InstagramIcon, Linkedin, LinkedinIcon, Mail, TwitchIcon, TwitterIcon, User, X } from "lucide-react"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { 
+  ArrowUpRight, 
+  Github, 
+  Linkedin, 
+  Twitter, 
+  Mail, 
+  MapPin, 
+  Menu, 
+  X 
+} from "lucide-react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function Portfolio() {
-  const { scrollYProgress } = useScroll()
-  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1])
+  const sections = ["home", "about", "tech-stack", "projects", "experience", "contact"]
+  const [activeSection, setActiveSection] = useState("home")
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" })
+  const [formStatus, setFormStatus] = useState("")
+
+  // Active section tracking hook
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 200 // offset for navigation highlight
+
+      for (const section of sections) {
+        const el = document.getElementById(section)
+        if (el) {
+          const top = el.offsetTop
+          const height = el.offsetHeight
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section)
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    handleScroll()
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setFormStatus("Sending...")
+
+    try {
+      const res = await fetch("http://localhost:5000/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+
+      if (res.ok) {
+        setFormStatus("Message sent successfully.")
+        setFormData({ name: "", email: "", subject: "", message: "" })
+      } else {
+        setFormStatus("Failed to send. Please contact via email directly.")
+      }
+    } catch (error) {
+      setFormStatus("Error sending. Please reach out via email directly.")
+    }
+  }
+
+  const scrollToSection = (id: string) => {
+    setMobileMenuOpen(false)
+    const element = document.getElementById(id)
+    if (element) {
+      const offset = 100 // header height
+      const bodyRect = document.body.getBoundingClientRect().top
+      const elementRect = element.getBoundingClientRect().top
+      const elementPosition = elementRect - bodyRect
+      const offsetPosition = elementPosition - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      })
+    }
+  }
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-zinc-900 to-black text-white">
-      {/* Progress bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 z-50"
-        style={{ scaleX }}
-      />
+    <div className="relative min-h-screen bg-[#121212] text-white selection:bg-white selection:text-black antialiased font-sans">
+      
+      {/* Premium Sticky Navigation Bar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#121212]/80 backdrop-blur-md transition-colors duration-300">
+        <div className="max-w-5xl mx-auto px-6 h-24 flex justify-between items-center">
+          
+          {/* Logo / Name */}
+          <button 
+            onClick={() => scrollToSection("home")}
+            className="text-xs uppercase tracking-[0.25em] font-medium text-white hover:opacity-80 transition-opacity"
+          >
+            NAV RAJ BASNET
+          </button>
 
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md bg-black/30 border-b border-white/10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500"
-          >
-            NAV
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, staggerChildren: 0.1, delayChildren: 0.2 }}
-            className="hidden md:flex space-x-8"
-          >
-            {["Home", "About", "Projects", "Skills", "Contact"].map((item, index) => (
-              <motion.a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="text-white/80 hover:text-white transition-colors"
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center space-x-10">
+            {sections.map((section) => (
+              <button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className={`text-[10px] uppercase tracking-[0.2em] transition-colors duration-200 ${
+                  activeSection === section 
+                    ? "text-white font-semibold" 
+                    : "text-[#8E8E93] hover:text-white"
+                }`}
               >
-                {item}
-              </motion.a>
+                {section.replace("-", " ")}
+              </button>
             ))}
-          </motion.div>
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+          </div>
+
+          {/* Desktop Resume */}
+          <div className="hidden md:block">
             <Link href="/resume">
-              <Button variant="outline" className="border-purple-500 text-white hover:bg-purple-500/20">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#8E8E93] hover:text-white border-b border-transparent hover:border-white pb-1 transition-all duration-300">
                 Resume
-              </Button>
+              </span>
             </Link>
-          </motion.div>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden text-white focus:outline-none"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center pt-20">
-        <div className="container mx-auto px-4 py-20 flex flex-col items-center text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7 }}
-            className="w-40 h-40 rounded-full border-4 border-purple-500 overflow-hidden mb-8"
+      {/* Mobile Drawer Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.15 }}
+            className="fixed top-24 left-0 right-0 z-40 bg-[#121212] border-b border-[#2A2A2A] py-8 px-6 md:hidden flex flex-col space-y-4"
           >
-            <img src="/profile.jpg?height=160&width=160" alt="NAV" className="w-full h-full object-cover" />
+            {sections.map((section) => (
+              <button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className={`text-left text-[11px] uppercase tracking-[0.2em] py-2 transition-colors ${
+                  activeSection === section ? "text-white font-medium" : "text-[#8E8E93]"
+                }`}
+              >
+                {section.replace("-", " ")}
+              </button>
+            ))}
+            <div className="pt-4 border-t border-[#2A2A2A]">
+              <Link href="/resume" onClick={() => setMobileMenuOpen(false)}>
+                <span className="text-[11px] uppercase tracking-[0.2em] text-white block py-2">
+                  Resume
+                </span>
+              </Link>
+            </div>
           </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-5xl md:text-7xl font-bold mb-4"
-          >
-            Hi, I'm{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500">
-              NAV
-            </span>
-          </motion.h1>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="text-xl md:text-2xl text-white/80 mb-8 max-w-2xl"
-          >
-            <TypewriterEffect text="A passionate Game Developer and Software Developer" delay={50} />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.6 }}
-            className="flex flex-wrap gap-4 justify-center"
-          >
-            <Link href="/contactsection">
-              <Button className="bg-purple-600 hover:bg-purple-700">
-                Get in Touch
-              </Button>
-            </Link>
+        )}
+      </AnimatePresence>
 
-            <Link href="/resume">
-              <Button variant="outline" className="border-purple-500 text-white hover:bg-purple-500/20">
-                View Resume
-              </Button>
-            </Link>
-          </motion.div>
-          <motion.div
+      {/* Main Content (Centered and spaced out) */}
+      <main className="max-w-4xl mx-auto px-6 pt-24">
+
+        {/* 1. Hero Section (Ultra Minimal Typography Focus) */}
+        <section 
+          id="home" 
+          className="min-h-[calc(100vh-96px)] flex flex-col justify-center py-16"
+        >
+          <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.2 }}
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+            transition={{ duration: 0.8 }}
+            className="max-w-2xl space-y-8"
           >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, repeatType: "loop" }}
-            >
-              <ArrowDown className="w-6 h-6 text-white/60" />
-            </motion.div>
+            <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+              Software Engineer & Game Developer
+            </span>
+            
+            <h1 className="text-4xl sm:text-6xl font-normal tracking-tight text-white leading-none">
+              NAV RAJ BASNET
+            </h1>
+            
+            <p className="text-sm sm:text-base text-[#8E8E93] leading-relaxed font-light">
+              Designing and constructing high-fidelity system applications, client-side web infrastructures, and interactive games. Focused on strict minimalist design principles and precise, performant codebases.
+            </p>
+
+            <div className="flex gap-8 pt-4">
+              <button 
+                onClick={() => scrollToSection("projects")}
+                className="text-xs uppercase tracking-[0.2em] text-white border-b border-white pb-1 hover:opacity-80 transition-opacity"
+              >
+                View Projects
+              </button>
+              
+              <button 
+                onClick={() => scrollToSection("contact")}
+                className="text-xs uppercase tracking-[0.2em] text-[#8E8E93] border-b border-transparent hover:border-white pb-1 hover:text-white transition-all"
+              >
+                Get In Touch
+              </button>
+            </div>
           </motion.div>
-        </div>
-      </section>
+        </section>
 
-      {/* About Section */}
-      <AnimatedSection id="about">
-        <div className="container mx-auto px-4 py-20">
-          <SectionTitle>About Me</SectionTitle>
-          <div className="grid md:grid-cols-2 gap-10 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg transform rotate-3"></div>
-              <img
-                src="/xyz.jpg?height=400&width=500"
-                alt="About NAV"
-                className="relative rounded-lg w-full h-auto z-10"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold mb-4">Who am I?</h3>
-              <p className="text-white/80 mb-6">
-                I'm a passionate developer with a keen eye for design and a love for creating seamless user experiences.
-                With expertise in modern web technologies, I bring ideas to life through clean code and creative
-                solutions.
+        {/* 2. About Section (Editorial Layout, No Cards) */}
+        <section id="about" className="py-24 border-t border-[#2A2A2A]">
+          <div className="grid md:grid-cols-12 gap-8 items-start">
+            
+            <div className="md:col-span-4">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+                01 / About
+              </span>
+            </div>
+
+            <div className="md:col-span-8 space-y-12">
+              <h3 className="text-xl sm:text-2xl font-light text-white leading-relaxed">
+                I am a CSIT undergraduate at Tribhuvan University, actively balancing advanced computer science research with engineering production code for client systems.
+              </h3>
+              
+              <p className="text-sm text-[#8E8E93] leading-relaxed font-light">
+                My approach to development centers on extreme simplification. I strip out unnecessary design bloat and focus entirely on high-performance logic, clean spacing, and structural coherence. I believe the most robust solutions are also the most minimal.
               </p>
-              <p className="text-white/80 mb-6">
-                My journey in tech began with a curiosity about how things work, which evolved into a career building
-                digital products that make a difference. I believe in continuous learning and pushing the boundaries of
-                what's possible in web development.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
+
+              {/* Minimal Stats Row (Borderless, just text and space) */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-4 border-t border-[#2A2A2A]">
                 <div>
-                  <h4 className="font-bold mb-2">Name:</h4>
-                  <p className="text-white/80">Nav Raj Basnet</p>
+                  <span className="text-xs text-[#8E8E93] block font-light uppercase tracking-wider">Experience</span>
+                  <span className="text-lg text-white font-medium mt-1 block">5+ Years</span>
                 </div>
                 <div>
-                  <h4 className="font-bold mb-2">Email:</h4>
-                  <p className="text-white/80">basnetnavraj4@gmail.com</p>
+                  <span className="text-xs text-[#8E8E93] block font-light uppercase tracking-wider">Completed</span>
+                  <span className="text-lg text-white font-medium mt-1 block">25+ Projects</span>
                 </div>
                 <div>
-                  <h4 className="font-bold mb-2">Location:</h4>
-                  <p className="text-white/80">Nepalgunj, Nepal</p>
-                </div>
-                <div>
-                  <h4 className="font-bold mb-2">Availability:</h4>
-                  <p className="text-white/80"> Part Time Dev and Student</p>
+                  <span className="text-xs text-[#8E8E93] block font-light uppercase tracking-wider">Role</span>
+                  <span className="text-lg text-white font-medium mt-1 block">Freelancer</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
+
           </div>
-        </div>
-      </AnimatedSection>
+        </section>
 
-      {/* Projects Section */}
-      <AnimatedSection id="projects" className="bg-zinc-900/50">
-        <div className="container mx-auto px-4 py-20">
-          <SectionTitle>My Projects</SectionTitle>
-          <Tabs defaultValue="all" className="w-full mb-10">
-            <TabsList className="mx-auto bg-zinc-800/50">
-              {["All", "Web", "Mobile", "Desktop", "Games"].map((category) => (
-                <TabsTrigger key={category} value={category.toLowerCase()}>
-                  {category}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            <TabsContent value="all" className="mt-8">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
+        {/* 3. Tech Stack Section (Minimalist Categorized Text, No Box Outlines) */}
+        <section id="tech-stack" className="py-24 border-t border-[#2A2A2A]">
+          <div className="grid md:grid-cols-12 gap-8 items-start">
+            
+            <div className="md:col-span-4">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+                02 / Stack
+              </span>
+            </div>
 
-                  {
-                    title: "AnyX App",
-                    category: "Mobile Development",
-                    image: "/placeholder.svg?height=300&width=400",
-                  },
-
-                  {
-                    title: "Task Management",
-                    category: "Web Development",
-                    image: "/placeholder.svg?height=300&width=400",
-                  },
-                  {
-                    title: "Fitness Tracker",
-                    category: "Mobile Development",
-                    image: "/placeholder.svg?height=300&width=400",
-                  },
-                  {
-                    title: "Car Portal",
-                    category: "Open World Game",
-                    image: "/placeholder.svg?height=300&width=400",
-                  },
-
-                ].map((project, index) => (
-                  <ProjectCard key={index} project={project} index={index} />
-                ))}
-              </div>
-            </TabsContent>
-
-            {/* This is The Game Section */}
-            <TabsContent value="games" className="mt-8">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  {
-                    title: "Car Portal",
-                    category: "Open World Game",
-                    image: "/placeholder.svg?height=300&width=400",
-                  },
-                ].map((project, index) => (
-                  <ProjectCard key={index} project={project} index={index} />
-                ))}
-              </div>
-            </TabsContent>
-
-            {/* Mobile projects would be filtered here */}
-            <TabsContent value="mobile" className="mt-8">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  {
-                    title: "Fitness Tracker",
-                    category: "Mobile Development",
-                    image: "/placeholder.svg?height=300&width=400",
-                  },
-                  {
-                    title: "AnyX App",
-                    category: "Mobile Development",
-                    image: "/placeholder.svg?height=300&width=400",
-                  },
-                ].map((project, index) => (
-                  <ProjectCard key={index} project={project} index={index} />
-                ))}
-              </div>
-            </TabsContent>
-
-            {/* Web projects would be filtered here */}
-            <TabsContent value="web" className="mt-8">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  {
-                    title: "Elite Social Club Website",
-                    category: "Web Development",
-                    image: "/placeholder.svg?height=300&width=400",
-                  },
-                ].map((project, index) => (
-                  <ProjectCard key={index} project={project} index={index} />
-                ))}
-              </div>
-            </TabsContent>
-
-
-            {/* Other tabs would have filtered content */}
-            <TabsContent value="web" className="mt-8">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Web projects would be filtered here */}
-
-
-              </div>
-            </TabsContent>
-
-            <TabsContent value="desktop" className="mt-8">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Desktop projects would be filtered here */}
-                {[
-                  {
-                    title: "CalcX",
-                    category: "Desktop Development",
-                    image: "/calcx_image.png?height=250&width=350",
-                  },
-                  {
-                    title: "SecurePassPro",
-                    category: "Desktop Development",
-                    image: "/mockup.png?height=250&width=350",
-                    download: "/SecurePassPro_Setup.exe",
-                  },
-                ].map((project, index) => (
-                  <ProjectCard key={index} project={project} index={index} />
-                ))}
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </AnimatedSection>
-
-      {/* Skills Section */}
-      <AnimatedSection id="skills">
-        <div className="container mx-auto px-4 py-20">
-          <SectionTitle>My Skills</SectionTitle>
-          <div className="grid md:grid-cols-2 gap-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold mb-6">Technical Skills</h3>
+            <div className="md:col-span-8 space-y-10">
+              
               {[
-                { name: "HTML/CSS", percentage: 75, value: 75 },
-                { name: "JavaScript", percentage: 40, value: 40 },
-                { name: "React", percentage: 45, value: 45 },
-                { name: "Node.js", percentage: 50, value: 50 },
-                { name: "Unreal Engine", percentage: 40, value: 40 },
-                { name: "Unity", percentage: 85, value: 85 },
-              ].map((skill, index) => (
-                <SkillBar key={index} skill={skill} index={index} />
+                { category: "Frontend", items: "React, Next.js, TypeScript, Tailwind CSS, HTML5, CSS3, ES6+" },
+                { category: "Backend", items: "Node.js, Express, RESTful APIs, JSON Services" },
+                { category: "Game Engines & Native", items: "Unity Engine, Unreal Engine, WPF Desktop, React Native" },
+                { category: "Databases", items: "PostgreSQL, MongoDB, SQLite" },
+                { category: "Cloud & Devops", items: "Git, GitHub, Docker, AWS Core" }
+              ].map((group, idx) => (
+                <div key={idx} className="grid sm:grid-cols-12 gap-2 sm:gap-6 items-baseline pb-6 border-b border-[#2A2A2A]/40 last:border-b-0">
+                  <span className="sm:col-span-4 text-xs uppercase tracking-wider text-[#8E8E93] font-medium">
+                    {group.category}
+                  </span>
+                  <span className="sm:col-span-8 text-sm text-white font-light leading-relaxed">
+                    {group.items}
+                  </span>
+                </div>
               ))}
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold mb-6">Professional Skills</h3>
-              <div className="grid grid-cols-2 gap-6">
-                {[
-                  { name: "Communication", value: 90 },
-                  { name: "Teamwork", value: 85 },
-                  { name: "Problem Solving", value: 95 },
-                  { name: "Creativity", value: 80 },
-                ].map((skill, index) => (
-                  <CircularSkill
-                    key={index}
-                    skill={{ ...skill, percentage: skill.value }}
-                    index={index}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </AnimatedSection>
 
-      {/* Contact Section */}
-      <AnimatedSection id="contact" className="bg-zinc-900/50">
-        <div className="container mx-auto px-4 py-20">
-          <SectionTitle>Get In Touch</SectionTitle>
-          <div className="grid md:grid-cols-2 gap-10">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              <p className="text-white/80 mb-8">
-                Feel free to reach out to me for any questions or opportunities. I'm always open to discussing new
-                projects, creative ideas, or opportunities to be part of your vision.
-              </p>
-              <div className="space-y-6">
+            </div>
+
+          </div>
+        </section>
+
+        {/* 4. Projects Section (Clean Typography & Flat Image Hover Layout) */}
+        <section id="projects" className="py-24 border-t border-[#2A2A2A]">
+          <div className="space-y-16">
+            
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+                03 / Projects
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-16">
+              {[
+                {
+                  title: "SecurePassPro",
+                  category: "Desktop Utility",
+                  desc: "Encrypted desktop credentials vault designed with clean C++ logic.",
+                  tags: ["C++", "Qt", "Crypto"],
+                  image: "/mockup.png",
+                  download: "/SecurePassPro_Setup.exe"
+                },
+                {
+                  title: "CalcX",
+                  category: "Desktop Utility",
+                  desc: "Advanced developer utility and math compilation engine.",
+                  tags: ["C#", "WPF", "Math Engine"],
+                  image: "/calcx_image.png"
+                },
+                {
+                  title: "Car Portal",
+                  category: "Game Dev",
+                  desc: "Open world modular physics sandbox environment.",
+                  tags: ["Unity", "C#", "3D Rendering"],
+                  image: "/xyz.jpg"
+                },
+                {
+                  title: "AnyX App",
+                  category: "Mobile Utility",
+                  desc: "Cross-platform mobile state dashboard.",
+                  tags: ["React Native", "Expo"],
+                  image: "/placeholder.svg"
+                },
+                {
+                  title: "Task Management",
+                  category: "Web Application",
+                  desc: "Streamlined workflow sprint client for teams.",
+                  tags: ["Next.js", "TypeScript", "Tailwind"],
+                  image: "/placeholder.svg"
+                },
+                {
+                  title: "Elite Social Club",
+                  category: "Web Application",
+                  desc: "High-end landing web platform with visual focus.",
+                  tags: ["React", "CSS3"],
+                  image: "/placeholder.svg"
+                }
+              ].map((proj, i) => (
+                <div key={i} className="group space-y-4">
+                  {/* Image wrapper */}
+                  <div className="aspect-[16/10] w-full bg-[#1A1A1A] overflow-hidden rounded-xl border border-[#2A2A2A] transition-all duration-300 group-hover:border-white/40">
+                    <img 
+                      src={proj.image} 
+                      alt={proj.title}
+                      className="w-full h-full object-cover filter grayscale contrast-110 opacity-70 group-hover:opacity-100 group-hover:scale-[1.01] transition-all duration-500"
+                      onError={(e) => {
+                        e.currentTarget.src = "/placeholder.svg"
+                      }}
+                    />
+                  </div>
+
+                  {/* Metadata */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-baseline">
+                      <h4 className="text-base font-medium text-white">
+                        {proj.title}
+                      </h4>
+                      <span className="text-[10px] uppercase tracking-wider text-[#8E8E93]">
+                        {proj.category}
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-[#8E8E93] leading-relaxed font-light">
+                      {proj.desc}
+                    </p>
+
+                    {/* Tags and Links */}
+                    <div className="flex items-center justify-between pt-2 border-t border-[#2A2A2A]/40">
+                      <div className="flex gap-2">
+                        {proj.tags.map((t, idx) => (
+                          <span key={idx} className="text-[9px] uppercase tracking-wider text-[#8E8E93]">
+                            #{t}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        {proj.download ? (
+                          <a 
+                            href={proj.download}
+                            download
+                            className="text-[10px] uppercase tracking-wider text-white hover:underline flex items-center gap-1"
+                          >
+                            Download <ArrowUpRight size={10} />
+                          </a>
+                        ) : (
+                          <span className="text-[10px] uppercase tracking-wider text-white flex items-center gap-1 cursor-pointer hover:underline">
+                            Demo <ArrowUpRight size={10} />
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
+        {/* 5. Experience Section (Editorial Timeline, Clean Grid structure) */}
+        <section id="experience" className="py-24 border-t border-[#2A2A2A]">
+          <div className="grid md:grid-cols-12 gap-8 items-start">
+            
+            <div className="md:col-span-4">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+                04 / Experience
+              </span>
+            </div>
+
+            <div className="md:col-span-8 space-y-12">
+              
+              {[
+                {
+                  role: "Senior Game Developer",
+                  company: "AnyX Inc.",
+                  location: "Kathmandu, Nepal",
+                  period: "2021 — Present",
+                  desc: "Led interface optimizations and viewport modular layouts. Enhanced startup loading metrics by 30% and configured clean state protocols."
+                },
+                {
+                  role: "Full-Stack Engineer",
+                  company: "Freelance",
+                  location: "Remote",
+                  period: "2019 — 2021",
+                  desc: "Structured desktop databases and native UI applications using modular backend packages and robust local pipelines."
+                },
+                {
+                  role: "CSIT Undergraduate researcher",
+                  company: "Tribhuvan University",
+                  location: "Kathmandu, Nepal",
+                  period: "2024 — Running",
+                  desc: "Researching systems architecture, modular coding procedures, and interface design hierarchies."
+                }
+              ].map((exp, idx) => (
+                <div key={idx} className="space-y-2 pb-8 border-b border-[#2A2A2A]/40 last:border-b-0 last:pb-0">
+                  <div className="flex flex-wrap justify-between items-baseline gap-2">
+                    <h4 className="text-base font-medium text-white">
+                      {exp.role}
+                    </h4>
+                    <span className="text-xs text-[#8E8E93] font-light">
+                      {exp.period}
+                    </span>
+                  </div>
+
+                  <div className="text-xs text-[#8E8E93] font-light uppercase tracking-wider">
+                    {exp.company} — {exp.location}
+                  </div>
+
+                  <p className="text-xs text-[#8E8E93] leading-relaxed font-light pt-2">
+                    {exp.desc}
+                  </p>
+                </div>
+              ))}
+
+            </div>
+
+          </div>
+        </section>
+
+        {/* 6. Contact Section (Minimal Flat Input Layout) */}
+        <section id="contact" className="py-24 border-t border-[#2A2A2A]">
+          <div className="grid md:grid-cols-12 gap-8 items-start">
+            
+            {/* Left Contact Info */}
+            <div className="md:col-span-4 space-y-6">
+              <div>
+                <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+                  05 / Contact
+                </span>
+                <h3 className="text-xl font-light text-white mt-4">
+                  Let's construct something together.
+                </h3>
+              </div>
+
+              <div className="space-y-2 text-xs text-[#8E8E93] font-light">
+                <p>basnetnavraj4@gmail.com</p>
+                <p>+977 9864726814</p>
+                <p>Nepalgunj, Nepal</p>
+              </div>
+
+              {/* Minimal social links */}
+              <div className="flex gap-4 pt-2">
                 {[
-                  { icon: <Mail className="w-5 h-5" />, title: "Email", value: "basnetnavraj4@gmail.com" },
-                  { icon: <User className="w-5 h-5" />, title: "Phone", value: "+977 9864726814" },
-                  { icon: <Github className="w-5 h-5" />, title: "Github", value: "github.com/Nav0077" },
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-center gap-4"
+                  { name: "GitHub", url: "https://github.com/Nav0077", icon: <Github size={14} /> },
+                  { name: "LinkedIn", url: "https://www.linkedin.com/in/nav-b-9310b9312", icon: <Linkedin size={14} /> },
+                  { name: "Twitter", url: "https://x.com/Nav0777777", icon: <Twitter size={14} /> }
+                ].map((soc, sIdx) => (
+                  <a
+                    key={sIdx}
+                    href={soc.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={soc.name}
+                    className="text-[#8E8E93] hover:text-white transition-colors"
                   >
-                    <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-500">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h4 className="font-medium">{item.title}</h4>
-                      <p className="text-white/80">{item.value}</p>
-                    </div>
-                  </motion.div>
+                    {soc.icon}
+                  </a>
                 ))}
               </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-              className="bg-zinc-800/50 p-6 rounded-lg border border-white/10"
-            >
-              <h3 className="text-2xl font-bold mb-6">Send Me a Message</h3>
-              <form className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium mb-1">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      className="w-full px-4 py-2 bg-zinc-700/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            </div>
+
+            {/* Right Contact Form (Flat lines, no full boxes) */}
+            <div className="md:col-span-8">
+              <form onSubmit={handleFormSubmit} className="space-y-8">
+                
+                <div className="grid sm:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[9px] uppercase tracking-widest text-[#8E8E93]">Name</label>
+                    <input 
+                      type="text" 
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Your Name"
+                      className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#2A2A2A] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444]"
                     />
                   </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium mb-1">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      className="w-full px-4 py-2 bg-zinc-700/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  <div className="space-y-2">
+                    <label className="text-[9px] uppercase tracking-widest text-[#8E8E93]">Email</label>
+                    <input 
+                      type="email" 
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="you@example.com"
+                      className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#2A2A2A] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444]"
                     />
                   </div>
                 </div>
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium mb-1">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    className="w-full px-4 py-2 bg-zinc-700/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+
+                <div className="space-y-2">
+                  <label className="text-[9px] uppercase tracking-widest text-[#8E8E93]">Subject</label>
+                  <input 
+                    type="text" 
+                    name="subject"
+                    required
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    placeholder="Project Inquiry"
+                    className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#2A2A2A] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444]"
                   />
                 </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-1">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={5}
-                    className="w-full px-4 py-2 bg-zinc-700/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  ></textarea>
+
+                <div className="space-y-2">
+                  <label className="text-[9px] uppercase tracking-widest text-[#8E8E93]">Message</label>
+                  <textarea 
+                    name="message"
+                    required
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Describe your inquiry..."
+                    className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#2A2A2A] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444] resize-none"
+                  />
                 </div>
-                <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
+
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-white text-black hover:bg-[#E5E5E5] text-[10px] uppercase tracking-[0.2em] font-semibold rounded-xl transition-all duration-300"
+                >
                   Send Message
                 </Button>
+
+                {formStatus && (
+                  <p className="text-xs text-[#8E8E93] text-center pt-2">{formStatus}</p>
+                )}
+
               </form>
-            </motion.div>
+            </div>
+
           </div>
-        </div>
-      </AnimatedSection>
+        </section>
+
+      </main>
 
       {/* Footer */}
-      <footer className="bg-black py-8 border-t border-white/10">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true }}
-            className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 mb-4"
-          >
-            NAV
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="flex justify-center space-x-6 mb-6"
-          >
-            {[
-              { name: "github", href: "https://github.com/Nav0077", icon: <Github className="w-5 h-5" /> },
-              { name: "twitter", href: "https://x.com/Nav0777777", icon: <TwitterIcon className="w-5 h-5" /> },
-              { name: "linkedin", href: "https://www.linkedin.com/in/nav-b-9310b9312", icon: <LinkedinIcon className="w-5 h-5" /> },
-              { name: "instagram", href: "https://www.instagram.com/nav7777x", icon: <InstagramIcon className="w-5 h-5" /> },
-              { name: "own-logo", href: "/", icon: <img src="/profile.jpg" alt="Own Logo" className="w-5 h-5" /> },
-            ].map((social) => (
-              <a
-                key={social.name}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-white/80 hover:bg-purple-500 hover:text-white transition-colors"
-              >
-                <span className="sr-only">{social.name}</span>
-                {social.icon}
-              </a>
-            ))}
-
-          </motion.div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="text-white/60"
-          >
-            © {new Date().getFullYear()} NAV. All rights reserved.
-          </motion.p>
+      <footer className="border-t border-[#2A2A2A] bg-[#121212] py-12 mt-12">
+        <div className="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] uppercase tracking-[0.15em] text-[#8E8E93]">
+          <p>© {new Date().getFullYear()} NAV RAJ BASNET. All rights reserved.</p>
+          <div className="flex gap-8">
+            <Link href="/resume" className="hover:text-white transition-colors">Resume</Link>
+            <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition-colors">Back to Top</button>
+          </div>
         </div>
       </footer>
+
     </div>
   )
-}
-
-// Helper Components
-function AnimatedSection({ id, children, className = "" }: { id: string; children: ReactNode; className?: string }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.1 })
-
-  return (
-    <section id={id} ref={ref} className={className}>
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-        transition={{ duration: 0.7 }}
-      >
-        {children}
-      </motion.div>
-    </section>
-  )
-}
-
-import { ReactNode } from "react";
-
-function SectionTitle({ children }: { children: ReactNode }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
-      viewport={{ once: true }}
-      className="text-center mb-16"
-    >
-      <h2 className="text-4xl font-bold inline-block relative">
-        {children}
-        <motion.span
-          initial={{ width: 0 }}
-          whileInView={{ width: "100%" }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500"
-        ></motion.span>
-      </h2>
-    </motion.div>
-  )
-}
-
-interface Project {
-  title: string;
-  category: string;
-  image: string;
-  download?: string;
-}
-
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      whileHover={{ y: -10 }}
-      className="group relative overflow-hidden rounded-lg"
-    >
-      <div className="aspect-video overflow-hidden rounded-lg">
-        <img
-          src={project.image || "/placeholder.svg"}
-          alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-        />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 rounded-2xl">
-        <h3 className="text-2xl font-semibold text-white drop-shadow-md">{project.title}</h3>
-        <p className="text-gray-300 mb-4">{project.category}</p>
-
-        <div className="flex gap-3">
-          <Button
-            size="sm"
-            variant="outline"
-            className="flex items-center gap-2 rounded-xl border-white/30 bg-white/10 backdrop-blur-md text-white hover:bg-white/20 hover:scale-105 transition-transform duration-300"
-          >
-            <Github className="w-4 h-4" /> Code
-          </Button>
-
-          <Button
-            size="sm"
-            variant="outline"
-            className="flex items-center gap-2 rounded-xl border-pink-400/40 bg-pink-500/10 backdrop-blur-md text-white hover:bg-pink-500/20 hover:scale-105 transition-transform duration-300"
-          >
-            <ExternalLink className="w-4 h-4" /> Demo
-          </Button>
-          {project.download && (
-            <a
-              href={project.download}
-              download
-              className="flex items-center gap-2 rounded-xl border-green-400/40 bg-green-500/10 backdrop-blur-md text-white hover:bg-green-500/20 hover:scale-105 transition-transform duration-300 px-4 py-2 text-sm border outline-none"
-              style={{ textDecoration: "none" }}
-            >
-              <ArrowDown className="w-4 h-4" /> Download
-            </a>
-          )}
-        </div>
-      </div>
-
-    </motion.div>
-  )
-}
-
-interface Skill {
-  name: string;
-  percentage: number;
-  value: number; // Added the 'value' property
-}
-
-function SkillBar({ skill, index }: { skill: Skill; index: number }) {
-  return (
-    <div className="mb-6">
-      <div className="flex justify-between mb-1">
-        <span className="font-medium">{skill.name}</span>
-        <span>{skill.percentage}%</span>
-      </div>
-      <div className="h-2 bg-zinc-700 rounded-full overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${skill.percentage}%` }}
-          transition={{ duration: 1, delay: index * 0.1 }}
-          viewport={{ once: true }}
-          className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
-        ></motion.div>
-      </div>
-    </div>
-  )
-}
-
-function CircularSkill({ skill, index }: { skill: Skill; index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className="flex flex-col items-center"
-    >
-      <div className="relative w-24 h-24 mb-2">
-        <svg className="w-full h-full" viewBox="0 0 100 100">
-          <circle
-            className="text-zinc-700 stroke-current"
-            strokeWidth="8"
-            cx="50"
-            cy="50"
-            r="40"
-            fill="transparent"
-          ></circle>
-          <motion.circle
-            className="text-purple-500 stroke-current"
-            strokeWidth="8"
-            strokeLinecap="round"
-            cx="50"
-            cy="50"
-            r="40"
-            fill="transparent"
-            initial={{ strokeDasharray: "251.2", strokeDashoffset: "251.2" }}
-            whileInView={{
-              strokeDashoffset: 251.2 - (251.2 * skill.value) / 100,
-            }}
-            transition={{ duration: 1.5, delay: index * 0.2 }}
-            viewport={{ once: true }}
-          ></motion.circle>
-        </svg>
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-          <span className="text-xl font-bold">{skill.value}%</span>
-        </div>
-      </div>
-      <p className="text-center">{skill.name}</p>
-    </motion.div>
-  )
-}
-
-function TypewriterEffect({ text, delay = 50 }: { text: string; delay?: number }) {
-  const [displayText, setDisplayText] = useState("")
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText((prev) => prev + text[currentIndex])
-        setCurrentIndex((prev) => prev + 1)
-      }, delay)
-
-      return () => clearTimeout(timeout)
-    }
-  }, [currentIndex, delay, text])
-
-  return <span>{displayText}</span>
 }
