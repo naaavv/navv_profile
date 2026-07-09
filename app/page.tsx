@@ -90,16 +90,16 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="relative min-h-screen bg-[#121212] text-white selection:bg-white selection:text-black antialiased font-sans">
+    <div className="relative min-h-screen bg-[#000000] text-[#FFFFFF] selection:bg-white selection:text-black antialiased font-sans">
       
       {/* Premium Sticky Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#121212]/80 backdrop-blur-md transition-colors duration-300">
-        <div className="max-w-5xl mx-auto px-6 h-24 flex justify-between items-center">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#000000]/80 backdrop-blur-md transition-colors duration-300">
+        <div className="max-w-4xl mx-auto px-6 h-24 flex justify-between items-center">
           
           {/* Logo / Name */}
           <button 
             onClick={() => scrollToSection("home")}
-            className="text-xs uppercase tracking-[0.25em] font-medium text-white hover:opacity-80 transition-opacity"
+            className="text-[11px] uppercase tracking-[0.3em] font-medium text-white hover:opacity-85 transition-opacity"
           >
             NAV RAJ BASNET
           </button>
@@ -110,10 +110,10 @@ export default function Portfolio() {
               <button
                 key={section}
                 onClick={() => scrollToSection(section)}
-                className={`text-[10px] uppercase tracking-[0.2em] transition-colors duration-200 ${
+                className={`text-[10px] uppercase tracking-[0.25em] font-medium transition-colors duration-200 ${
                   activeSection === section 
                     ? "text-white font-semibold" 
-                    : "text-[#8E8E93] hover:text-white"
+                    : "text-[#737373] hover:text-white"
                 }`}
               >
                 {section.replace("-", " ")}
@@ -124,7 +124,7 @@ export default function Portfolio() {
           {/* Desktop Resume */}
           <div className="hidden md:block">
             <Link href="/resume">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#8E8E93] hover:text-white border-b border-transparent hover:border-white pb-1 transition-all duration-300">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#737373] hover:text-white border-b border-transparent hover:border-white pb-1 transition-all duration-300">
                 Resume
               </span>
             </Link>
@@ -150,22 +150,22 @@ export default function Portfolio() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.15 }}
-            className="fixed top-24 left-0 right-0 z-40 bg-[#121212] border-b border-[#2A2A2A] py-8 px-6 md:hidden flex flex-col space-y-4"
+            className="fixed top-24 left-0 right-0 z-40 bg-[#000000] border-b border-[#1C1C1C] py-8 px-6 md:hidden flex flex-col space-y-4"
           >
             {sections.map((section) => (
               <button
                 key={section}
                 onClick={() => scrollToSection(section)}
-                className={`text-left text-[11px] uppercase tracking-[0.2em] py-2 transition-colors ${
-                  activeSection === section ? "text-white font-medium" : "text-[#8E8E93]"
+                className={`text-left text-[11px] uppercase tracking-[0.25em] py-2 transition-colors ${
+                  activeSection === section ? "text-white font-medium" : "text-[#737373]"
                 }`}
               >
                 {section.replace("-", " ")}
               </button>
             ))}
-            <div className="pt-4 border-t border-[#2A2A2A]">
+            <div className="pt-4 border-t border-[#1C1C1C]">
               <Link href="/resume" onClick={() => setMobileMenuOpen(false)}>
-                <span className="text-[11px] uppercase tracking-[0.2em] text-white block py-2">
+                <span className="text-[11px] uppercase tracking-[0.25em] text-white block py-2">
                   Resume
                 </span>
               </Link>
@@ -175,7 +175,7 @@ export default function Portfolio() {
       </AnimatePresence>
 
       {/* Main Content (Centered and spaced out) */}
-      <main className="max-w-4xl mx-auto px-6 pt-24">
+      <main className="max-w-3xl mx-auto px-6 pt-24">
 
         {/* 1. Hero Section (Ultra Minimal Typography Focus) */}
         <section 
@@ -188,16 +188,16 @@ export default function Portfolio() {
             transition={{ duration: 0.8 }}
             className="max-w-2xl space-y-8"
           >
-            <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#737373] font-semibold">
               Software Engineer & Game Developer
             </span>
             
-            <h1 className="text-4xl sm:text-6xl font-normal tracking-tight text-white leading-none">
+            <h1 className="text-4xl sm:text-6xl font-light tracking-tight text-white leading-tight">
               NAV RAJ BASNET
             </h1>
             
-            <p className="text-sm sm:text-base text-[#8E8E93] leading-relaxed font-light">
-              Designing and constructing high-fidelity system applications, client-side web infrastructures, and interactive games. Focused on strict minimalist design principles and precise, performant codebases.
+            <p className="text-sm sm:text-base text-[#737373] leading-relaxed font-light">
+              Designing and constructing high-fidelity system applications, client-side web infrastructures, and interactive game modules. Focused on strict minimalist design principles and precise, performant codebases.
             </p>
 
             <div className="flex gap-8 pt-4">
@@ -210,7 +210,7 @@ export default function Portfolio() {
               
               <button 
                 onClick={() => scrollToSection("contact")}
-                className="text-xs uppercase tracking-[0.2em] text-[#8E8E93] border-b border-transparent hover:border-white pb-1 hover:text-white transition-all"
+                className="text-xs uppercase tracking-[0.2em] text-[#737373] border-b border-transparent hover:border-white pb-1 hover:text-white transition-all"
               >
                 Get In Touch
               </button>
@@ -219,11 +219,11 @@ export default function Portfolio() {
         </section>
 
         {/* 2. About Section (Editorial Layout, No Cards) */}
-        <section id="about" className="py-24 border-t border-[#2A2A2A]">
+        <section id="about" className="py-24 border-t border-[#1C1C1C]">
           <div className="grid md:grid-cols-12 gap-8 items-start">
             
             <div className="md:col-span-4">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#737373]">
                 01 / About
               </span>
             </div>
@@ -233,23 +233,23 @@ export default function Portfolio() {
                 I am a CSIT undergraduate at Tribhuvan University, actively balancing advanced computer science research with engineering production code for client systems.
               </h3>
               
-              <p className="text-sm text-[#8E8E93] leading-relaxed font-light">
+              <p className="text-sm text-[#737373] leading-relaxed font-light">
                 My approach to development centers on extreme simplification. I strip out unnecessary design bloat and focus entirely on high-performance logic, clean spacing, and structural coherence. I believe the most robust solutions are also the most minimal.
               </p>
 
               {/* Minimal Stats Row (Borderless, just text and space) */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-4 border-t border-[#2A2A2A]">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-8 border-t border-[#1C1C1C]">
                 <div>
-                  <span className="text-xs text-[#8E8E93] block font-light uppercase tracking-wider">Experience</span>
-                  <span className="text-lg text-white font-medium mt-1 block">5+ Years</span>
+                  <span className="text-[10px] text-[#737373] block font-light uppercase tracking-wider">Experience</span>
+                  <span className="text-base text-white font-medium mt-1 block">5+ Years</span>
                 </div>
                 <div>
-                  <span className="text-xs text-[#8E8E93] block font-light uppercase tracking-wider">Completed</span>
-                  <span className="text-lg text-white font-medium mt-1 block">25+ Projects</span>
+                  <span className="text-[10px] text-[#737373] block font-light uppercase tracking-wider">Completed</span>
+                  <span className="text-base text-white font-medium mt-1 block">25+ Projects</span>
                 </div>
                 <div>
-                  <span className="text-xs text-[#8E8E93] block font-light uppercase tracking-wider">Role</span>
-                  <span className="text-lg text-white font-medium mt-1 block">Freelancer</span>
+                  <span className="text-[10px] text-[#737373] block font-light uppercase tracking-wider">Role</span>
+                  <span className="text-base text-white font-medium mt-1 block">Freelancer</span>
                 </div>
               </div>
             </div>
@@ -258,11 +258,11 @@ export default function Portfolio() {
         </section>
 
         {/* 3. Tech Stack Section (Minimalist Categorized Text, No Box Outlines) */}
-        <section id="tech-stack" className="py-24 border-t border-[#2A2A2A]">
+        <section id="tech-stack" className="py-24 border-t border-[#1C1C1C]">
           <div className="grid md:grid-cols-12 gap-8 items-start">
             
             <div className="md:col-span-4">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#737373]">
                 02 / Stack
               </span>
             </div>
@@ -270,14 +270,13 @@ export default function Portfolio() {
             <div className="md:col-span-8 space-y-10">
               
               {[
-                { category: "Frontend", items: "React, Next.js, TypeScript, Tailwind CSS, HTML5, CSS3, ES6+" },
-                { category: "Backend", items: "Node.js, Express, RESTful APIs, JSON Services" },
-                { category: "Game Engines & Native", items: "Unity Engine, Unreal Engine, WPF Desktop, React Native" },
-                { category: "Databases", items: "PostgreSQL, MongoDB, SQLite" },
-                { category: "Cloud & Devops", items: "Git, GitHub, Docker, AWS Core" }
+                { category: "Languages", items: "C, C++, Python, PHP, Dart, HTML5/CSS3" },
+                { category: "Frameworks & Native", items: "Flutter, OpenGL, React, Next.js, TypeScript, Tailwind CSS" },
+                { category: "Backend & Services", items: "Supabase, Firebase, Node.js, Express, RESTful APIs" },
+                { category: "Deployment & Tools", items: "Vercel, Git, GitHub, Docker" }
               ].map((group, idx) => (
-                <div key={idx} className="grid sm:grid-cols-12 gap-2 sm:gap-6 items-baseline pb-6 border-b border-[#2A2A2A]/40 last:border-b-0">
-                  <span className="sm:col-span-4 text-xs uppercase tracking-wider text-[#8E8E93] font-medium">
+                <div key={idx} className="grid sm:grid-cols-12 gap-2 sm:gap-6 items-baseline pb-6 border-b border-[#1C1C1C]/40 last:border-b-0">
+                  <span className="sm:col-span-4 text-[10px] uppercase tracking-wider text-[#737373] font-medium">
                     {group.category}
                   </span>
                   <span className="sm:col-span-8 text-sm text-white font-light leading-relaxed">
@@ -292,11 +291,11 @@ export default function Portfolio() {
         </section>
 
         {/* 4. Projects Section (Clean Typography & Flat Image Hover Layout) */}
-        <section id="projects" className="py-24 border-t border-[#2A2A2A]">
+        <section id="projects" className="py-24 border-t border-[#1C1C1C]">
           <div className="space-y-16">
             
             <div>
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#737373]">
                 03 / Projects
               </span>
             </div>
@@ -349,11 +348,11 @@ export default function Portfolio() {
               ].map((proj, i) => (
                 <div key={i} className="group space-y-4">
                   {/* Image wrapper */}
-                  <div className="aspect-[16/10] w-full bg-[#1A1A1A] overflow-hidden rounded-xl border border-[#2A2A2A] transition-all duration-300 group-hover:border-white/40">
+                  <div className="aspect-[16/10] w-full bg-[#0A0A0A] overflow-hidden rounded-xl border border-[#1C1C1C] transition-all duration-300 group-hover:border-white/30">
                     <img 
                       src={proj.image} 
                       alt={proj.title}
-                      className="w-full h-full object-cover filter grayscale contrast-110 opacity-70 group-hover:opacity-100 group-hover:scale-[1.01] transition-all duration-500"
+                      className="w-full h-full object-cover filter grayscale contrast-110 opacity-60 group-hover:opacity-100 group-hover:scale-[1.01] transition-all duration-500"
                       onError={(e) => {
                         e.currentTarget.src = "/placeholder.svg"
                       }}
@@ -363,23 +362,23 @@ export default function Portfolio() {
                   {/* Metadata */}
                   <div className="space-y-2">
                     <div className="flex justify-between items-baseline">
-                      <h4 className="text-base font-medium text-white">
+                      <h4 className="text-base font-normal text-white">
                         {proj.title}
                       </h4>
-                      <span className="text-[10px] uppercase tracking-wider text-[#8E8E93]">
+                      <span className="text-[10px] uppercase tracking-wider text-[#737373]">
                         {proj.category}
                       </span>
                     </div>
 
-                    <p className="text-xs text-[#8E8E93] leading-relaxed font-light">
+                    <p className="text-xs text-[#737373] leading-relaxed font-light">
                       {proj.desc}
                     </p>
 
                     {/* Tags and Links */}
-                    <div className="flex items-center justify-between pt-2 border-t border-[#2A2A2A]/40">
+                    <div className="flex items-center justify-between pt-3 border-t border-[#1C1C1C]/40">
                       <div className="flex gap-2">
                         {proj.tags.map((t, idx) => (
-                          <span key={idx} className="text-[9px] uppercase tracking-wider text-[#8E8E93]">
+                          <span key={idx} className="text-[9px] uppercase tracking-wider text-[#737373]">
                             #{t}
                           </span>
                         ))}
@@ -410,11 +409,11 @@ export default function Portfolio() {
         </section>
 
         {/* 5. Experience Section (Editorial Timeline, Clean Grid structure) */}
-        <section id="experience" className="py-24 border-t border-[#2A2A2A]">
+        <section id="experience" className="py-24 border-t border-[#1C1C1C]">
           <div className="grid md:grid-cols-12 gap-8 items-start">
             
             <div className="md:col-span-4">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#737373]">
                 04 / Experience
               </span>
             </div>
@@ -444,21 +443,21 @@ export default function Portfolio() {
                   desc: "Researching systems architecture, modular coding procedures, and interface design hierarchies."
                 }
               ].map((exp, idx) => (
-                <div key={idx} className="space-y-2 pb-8 border-b border-[#2A2A2A]/40 last:border-b-0 last:pb-0">
+                <div key={idx} className="space-y-2 pb-8 border-b border-[#1C1C1C]/40 last:border-b-0 last:pb-0">
                   <div className="flex flex-wrap justify-between items-baseline gap-2">
-                    <h4 className="text-base font-medium text-white">
+                    <h4 className="text-base font-normal text-white">
                       {exp.role}
                     </h4>
-                    <span className="text-xs text-[#8E8E93] font-light">
+                    <span className="text-xs text-[#737373] font-light">
                       {exp.period}
                     </span>
                   </div>
 
-                  <div className="text-xs text-[#8E8E93] font-light uppercase tracking-wider">
+                  <div className="text-[10px] text-[#737373] font-light uppercase tracking-wider">
                     {exp.company} — {exp.location}
                   </div>
 
-                  <p className="text-xs text-[#8E8E93] leading-relaxed font-light pt-2">
+                  <p className="text-xs text-[#737373] leading-relaxed font-light pt-2">
                     {exp.desc}
                   </p>
                 </div>
@@ -470,21 +469,21 @@ export default function Portfolio() {
         </section>
 
         {/* 6. Contact Section (Minimal Flat Input Layout) */}
-        <section id="contact" className="py-24 border-t border-[#2A2A2A]">
+        <section id="contact" className="py-24 border-t border-[#1C1C1C]">
           <div className="grid md:grid-cols-12 gap-8 items-start">
             
             {/* Left Contact Info */}
             <div className="md:col-span-4 space-y-6">
               <div>
-                <span className="text-[10px] uppercase tracking-[0.25em] text-[#8E8E93]">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-[#737373]">
                   05 / Contact
                 </span>
-                <h3 className="text-xl font-light text-white mt-4">
+                <h3 className="text-lg font-light text-white mt-4 leading-relaxed">
                   Let's construct something together.
                 </h3>
               </div>
 
-              <div className="space-y-2 text-xs text-[#8E8E93] font-light">
+              <div className="space-y-2 text-xs text-[#737373] font-light">
                 <p>basnetnavraj4@gmail.com</p>
                 <p>+977 9864726814</p>
                 <p>Nepalgunj, Nepal</p>
@@ -503,7 +502,7 @@ export default function Portfolio() {
                     target="_blank"
                     rel="noopener noreferrer"
                     title={soc.name}
-                    className="text-[#8E8E93] hover:text-white transition-colors"
+                    className="text-[#737373] hover:text-white transition-colors"
                   >
                     {soc.icon}
                   </a>
@@ -517,7 +516,7 @@ export default function Portfolio() {
                 
                 <div className="grid sm:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <label className="text-[9px] uppercase tracking-widest text-[#8E8E93]">Name</label>
+                    <label className="text-[9px] uppercase tracking-widest text-[#737373]">Name</label>
                     <input 
                       type="text" 
                       name="name"
@@ -525,11 +524,11 @@ export default function Portfolio() {
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="Your Name"
-                      className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#2A2A2A] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444]"
+                      className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#1C1C1C] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444]"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] uppercase tracking-widest text-[#8E8E93]">Email</label>
+                    <label className="text-[9px] uppercase tracking-widest text-[#737373]">Email</label>
                     <input 
                       type="email" 
                       name="email"
@@ -537,13 +536,13 @@ export default function Portfolio() {
                       value={formData.email}
                       onChange={handleInputChange}
                       placeholder="you@example.com"
-                      className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#2A2A2A] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444]"
+                      className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#1C1C1C] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444]"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] uppercase tracking-widest text-[#8E8E93]">Subject</label>
+                  <label className="text-[9px] uppercase tracking-widest text-[#737373]">Subject</label>
                   <input 
                     type="text" 
                     name="subject"
@@ -551,12 +550,12 @@ export default function Portfolio() {
                     value={formData.subject}
                     onChange={handleInputChange}
                     placeholder="Project Inquiry"
-                    className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#2A2A2A] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444]"
+                    className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#1C1C1C] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444]"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] uppercase tracking-widest text-[#8E8E93]">Message</label>
+                  <label className="text-[9px] uppercase tracking-widest text-[#737373]">Message</label>
                   <textarea 
                     name="message"
                     required
@@ -564,7 +563,7 @@ export default function Portfolio() {
                     value={formData.message}
                     onChange={handleInputChange}
                     placeholder="Describe your inquiry..."
-                    className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#2A2A2A] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444] resize-none"
+                    className="w-full bg-transparent border-t-0 border-x-0 border-b border-[#1C1C1C] rounded-none px-0 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors placeholder-[#444444] resize-none"
                   />
                 </div>
 
@@ -576,7 +575,7 @@ export default function Portfolio() {
                 </Button>
 
                 {formStatus && (
-                  <p className="text-xs text-[#8E8E93] text-center pt-2">{formStatus}</p>
+                  <p className="text-xs text-[#737373] text-center pt-2">{formStatus}</p>
                 )}
 
               </form>
@@ -588,8 +587,8 @@ export default function Portfolio() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#2A2A2A] bg-[#121212] py-12 mt-12">
-        <div className="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] uppercase tracking-[0.15em] text-[#8E8E93]">
+      <footer className="border-t border-[#1C1C1C] bg-[#000000] py-12 mt-12">
+        <div className="max-w-3xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] uppercase tracking-[0.2em] text-[#737373]">
           <p>© {new Date().getFullYear()} NAV RAJ BASNET. All rights reserved.</p>
           <div className="flex gap-8">
             <Link href="/resume" className="hover:text-white transition-colors">Resume</Link>
