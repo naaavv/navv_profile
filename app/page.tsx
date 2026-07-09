@@ -13,7 +13,9 @@ import {
   Menu, 
   X,
   Sun,
-  Moon
+  Moon,
+  Smartphone,
+  Phone
 } from "lucide-react"
 import Link from "next/link"
 
@@ -36,7 +38,7 @@ export default function Portfolio() {
   // Active section tracking hook
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 200 // offset for navigation highlight
+      const scrollPosition = window.scrollY + 250 // offset for navigation highlight
 
       for (const section of sections) {
         const el = document.getElementById(section)
@@ -103,8 +105,8 @@ export default function Portfolio() {
     <div className="relative min-h-screen bg-background text-foreground selection:bg-foreground selection:text-background antialiased font-sans transition-colors duration-300">
       
       {/* Premium Sticky Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="max-w-4xl mx-auto px-6 h-24 flex justify-between items-center">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/40 transition-colors duration-300">
+        <div className="max-w-5xl mx-auto px-6 lg:px-8 h-24 flex justify-between items-center">
           
           {/* Logo / Name */}
           <button 
@@ -115,7 +117,7 @@ export default function Portfolio() {
           </button>
 
           {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center space-x-10">
+          <div className="hidden md:flex items-center space-x-8">
             {sections.map((section) => (
               <button
                 key={section}
@@ -133,8 +135,6 @@ export default function Portfolio() {
 
           {/* Theme Switcher & Resume */}
           <div className="hidden md:flex items-center space-x-6">
-            
-            {/* Theme Toggle Button */}
             {mounted && (
               <button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -152,7 +152,7 @@ export default function Portfolio() {
             </Link>
           </div>
 
-          {/* Mobile Menu Toggle & Theme */}
+          {/* Mobile Navigation Interface */}
           <div className="flex items-center space-x-4 md:hidden">
             {mounted && (
               <button
@@ -208,66 +208,96 @@ export default function Portfolio() {
         )}
       </AnimatePresence>
 
-      {/* Main Content (Centered and spaced out) */}
-      <main className="max-w-3xl mx-auto px-6 pt-24">
+      {/* Responsive Main Container */}
+      <main className="max-w-5xl mx-auto px-6 lg:px-8 pt-24">
 
-        {/* 1. Hero Section (Ultra Minimal Typography Focus) */}
+        {/* 1. Hero Section (Typographic Layout with Split Picture) */}
         <section 
           id="home" 
-          className="min-h-[calc(100vh-96px)] flex flex-col justify-center py-16"
+          className="min-h-[calc(100vh-96px)] flex items-center py-16 md:py-24"
         >
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-2xl space-y-8"
-          >
-            <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold">
-              Software Engineer & Game Developer
-            </span>
+          <div className="grid md:grid-cols-12 gap-12 items-center w-full">
             
-            <h1 className="text-4xl sm:text-6xl font-light tracking-tight text-foreground leading-tight">
-              NAV RAJ BASNET
-            </h1>
-            
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-light">
-              Designing and constructing high-fidelity system applications, client-side web infrastructures, and interactive game modules. Focused on strict minimalist design principles and precise, performant codebases.
-            </p>
-
-            <div className="flex gap-8 pt-4">
-              <button 
-                onClick={() => scrollToSection("projects")}
-                className="text-xs uppercase tracking-[0.2em] text-foreground border-b border-foreground pb-1 hover:opacity-80 transition-opacity"
-              >
-                View Projects
-              </button>
+            {/* Left Content Column */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="md:col-span-8 space-y-6 sm:space-y-8"
+            >
+              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold block">
+                Available for Projects
+              </span>
               
-              <button 
-                onClick={() => scrollToSection("contact")}
-                className="text-xs uppercase tracking-[0.2em] text-muted-foreground border-b border-transparent hover:border-foreground pb-1 hover:text-foreground transition-all"
-              >
-                Get In Touch
-              </button>
-            </div>
-          </motion.div>
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight text-foreground leading-[1.1] md:leading-none">
+                NAV RAJ BASNET
+              </h1>
+              
+              <h2 className="text-base sm:text-lg md:text-xl text-muted-foreground font-light">
+                Software Engineer & Game Developer
+              </h2>
+              
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-light max-w-xl">
+                Designing and constructing high-fidelity system applications, client-side web infrastructures, and interactive game modules. Focused on strict minimalist design principles and precise, performant codebases.
+              </p>
+
+              <div className="flex gap-8 pt-4">
+                <button 
+                  onClick={() => scrollToSection("projects")}
+                  className="text-xs uppercase tracking-[0.2em] text-foreground border-b border-foreground pb-1 hover:opacity-85 transition-opacity"
+                >
+                  View Projects
+                </button>
+                
+                <button 
+                  onClick={() => scrollToSection("contact")}
+                  className="text-xs uppercase tracking-[0.2em] text-muted-foreground border-b border-transparent hover:border-foreground pb-1 hover:text-foreground transition-all"
+                >
+                  Get In Touch
+                </button>
+              </div>
+            </motion.div>
+
+            {/* Right Profile Picture Column */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="md:col-span-4 flex justify-start md:justify-end"
+            >
+              <div className="relative w-48 h-48 sm:w-64 sm:h-64 rounded-xl overflow-hidden bg-card border border-border p-2 transition-transform duration-500 hover:scale-[1.01]">
+                <img 
+                  src="/profile.jpg" 
+                  alt="Nav Raj Basnet" 
+                  className="w-full h-full object-cover rounded-xl filter grayscale contrast-110 opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                  onError={(e) => {
+                    e.currentTarget.src = "/placeholder.svg"
+                  }}
+                />
+              </div>
+            </motion.div>
+
+          </div>
         </section>
 
-        {/* 2. About Section (Editorial Layout, No Cards) */}
-        <section id="about" className="py-24 border-t border-border">
-          <div className="grid md:grid-cols-12 gap-8 items-start">
+        {/* 2. About Section (Responsive Split Layout) */}
+        <section id="about" className="py-24 md:py-32 border-t border-border">
+          <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-start">
             
-            <div className="md:col-span-4">
-              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                01 / About
+            {/* Section Tag */}
+            <div className="md:col-span-3">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold block">
+                [01] About
               </span>
             </div>
 
-            <div className="md:col-span-8 space-y-12">
-              <h3 className="text-xl sm:text-2xl font-light text-foreground leading-relaxed">
+            {/* Content Details */}
+            <div className="md:col-span-9 space-y-8 md:space-y-12">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-light text-foreground leading-relaxed">
                 I am a CSIT undergraduate at Tribhuvan University, actively balancing advanced computer science research with engineering production code for client systems.
               </h3>
               
-              <p className="text-sm text-muted-foreground leading-relaxed font-light">
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-light">
                 My approach to development centers on extreme simplification. I strip out unnecessary design bloat and focus entirely on high-performance logic, clean spacing, and structural coherence. I believe the most robust solutions are also the most minimal.
               </p>
 
@@ -275,15 +305,15 @@ export default function Portfolio() {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-8 border-t border-border">
                 <div>
                   <span className="text-[10px] text-muted-foreground block font-light uppercase tracking-wider">Experience</span>
-                  <span className="text-base text-foreground font-medium mt-1 block">5+ Years</span>
+                  <span className="text-base sm:text-lg text-foreground font-medium mt-1 block">5+ Years</span>
                 </div>
                 <div>
                   <span className="text-[10px] text-muted-foreground block font-light uppercase tracking-wider">Completed</span>
-                  <span className="text-base text-foreground font-medium mt-1 block">25+ Projects</span>
+                  <span className="text-base sm:text-lg text-foreground font-medium mt-1 block">25+ Projects</span>
                 </div>
                 <div>
                   <span className="text-[10px] text-muted-foreground block font-light uppercase tracking-wider">Role</span>
-                  <span className="text-base text-foreground font-medium mt-1 block">Freelancer</span>
+                  <span className="text-base sm:text-lg text-foreground font-medium mt-1 block">Freelancer</span>
                 </div>
               </div>
             </div>
@@ -291,18 +321,19 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* 3. Tech Stack Section (Minimalist Categorized Text, No Box Outlines) */}
-        <section id="tech-stack" className="py-24 border-t border-border">
-          <div className="grid md:grid-cols-12 gap-8 items-start">
+        {/* 3. Tech Stack Section (Split Category Lists) */}
+        <section id="tech-stack" className="py-24 md:py-32 border-t border-border">
+          <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-start">
             
-            <div className="md:col-span-4">
-              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                02 / Stack
+            {/* Section Tag */}
+            <div className="md:col-span-3">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold block">
+                [02] Stack
               </span>
             </div>
 
-            <div className="md:col-span-8 space-y-10">
-              
+            {/* Categorized Tech list */}
+            <div className="md:col-span-9 space-y-10">
               {[
                 { category: "Languages", items: "C, C++, Python, PHP, Dart, HTML5/CSS3" },
                 { category: "Frameworks & Native", items: "Flutter, OpenGL, React, Next.js, TypeScript, Tailwind CSS" },
@@ -313,147 +344,152 @@ export default function Portfolio() {
                   <span className="sm:col-span-4 text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                     {group.category}
                   </span>
-                  <span className="sm:col-span-8 text-sm text-foreground font-light leading-relaxed">
+                  <span className="sm:col-span-8 text-sm sm:text-base text-foreground font-light leading-relaxed">
                     {group.items}
                   </span>
                 </div>
               ))}
-
             </div>
 
           </div>
         </section>
 
-        {/* 4. Projects Section (Clean Typography & Flat Image Hover Layout) */}
-        <section id="projects" className="py-24 border-t border-border">
-          <div className="space-y-16">
+        {/* 4. Projects Section (Split Project Grid) */}
+        <section id="projects" className="py-24 md:py-32 border-t border-border">
+          <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-start">
             
-            <div>
-              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                03 / Projects
+            {/* Section Tag */}
+            <div className="md:col-span-3">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold block">
+                [03] Projects
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-16">
-              {[
-                {
-                  title: "SecurePassPro",
-                  category: "Desktop Utility",
-                  desc: "Encrypted desktop credentials vault designed with clean C++ logic.",
-                  tags: ["C++", "Qt", "Crypto"],
-                  image: "/mockup.png",
-                  download: "/SecurePassPro_Setup.exe"
-                },
-                {
-                  title: "CalcX",
-                  category: "Desktop Utility",
-                  desc: "Advanced developer utility and math compilation engine.",
-                  tags: ["C#", "WPF", "Math Engine"],
-                  image: "/calcx_image.png"
-                },
-                {
-                  title: "Car Portal",
-                  category: "Game Dev",
-                  desc: "Open world modular physics sandbox environment.",
-                  tags: ["Unity", "C#", "3D Rendering"],
-                  image: "/xyz.jpg"
-                },
-                {
-                  title: "AnyX App",
-                  category: "Mobile Utility",
-                  desc: "Cross-platform mobile state dashboard.",
-                  tags: ["React Native", "Expo"],
-                  image: "/placeholder.svg"
-                },
-                {
-                  title: "Task Management",
-                  category: "Web Application",
-                  desc: "Streamlined workflow sprint client for teams.",
-                  tags: ["Next.js", "TypeScript", "Tailwind"],
-                  image: "/placeholder.svg"
-                },
-                {
-                  title: "Elite Social Club",
-                  category: "Web Application",
-                  desc: "High-end landing web platform with visual focus.",
-                  tags: ["React", "CSS3"],
-                  image: "/placeholder.svg"
-                }
-              ].map((proj, i) => (
-                <div key={i} className="group space-y-4">
-                  {/* Image wrapper */}
-                  <div className="aspect-[16/10] w-full bg-card overflow-hidden rounded-xl border border-border transition-all duration-300 group-hover:border-foreground/30">
-                    <img 
-                      src={proj.image} 
-                      alt={proj.title}
-                      className="w-full h-full object-cover filter grayscale contrast-110 opacity-65 group-hover:opacity-100 group-hover:scale-[1.01] transition-all duration-500"
-                      onError={(e) => {
-                        e.currentTarget.src = "/placeholder.svg"
-                      }}
-                    />
-                  </div>
-
-                  {/* Metadata */}
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-baseline">
-                      <h4 className="text-base font-normal text-foreground">
-                        {proj.title}
-                      </h4>
-                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                        {proj.category}
-                      </span>
+            {/* Project grid display */}
+            <div className="md:col-span-9">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
+                {[
+                  {
+                    title: "SecurePassPro",
+                    category: "Desktop Utility",
+                    desc: "Encrypted desktop credentials vault designed with clean C++ logic.",
+                    tags: ["C++", "Qt", "Crypto"],
+                    image: "/mockup.png",
+                    download: "/SecurePassPro_Setup.exe"
+                  },
+                  {
+                    title: "CalcX",
+                    category: "Desktop Utility",
+                    desc: "Advanced developer utility and math compilation engine.",
+                    tags: ["C#", "WPF", "Math Engine"],
+                    image: "/calcx_image.png"
+                  },
+                  {
+                    title: "Car Portal",
+                    category: "Game Dev",
+                    desc: "Open world modular physics sandbox environment.",
+                    tags: ["Unity", "C#", "3D Rendering"],
+                    image: "/xyz.jpg"
+                  },
+                  {
+                    title: "AnyX App",
+                    category: "Mobile Utility",
+                    desc: "Cross-platform mobile state dashboard.",
+                    tags: ["React Native", "Expo"],
+                    image: "/placeholder.svg"
+                  },
+                  {
+                    title: "Task Management",
+                    category: "Web Application",
+                    desc: "Streamlined workflow sprint client for teams.",
+                    tags: ["Next.js", "TypeScript", "Tailwind"],
+                    image: "/placeholder.svg"
+                  },
+                  {
+                    title: "Elite Social Club",
+                    category: "Web Application",
+                    desc: "High-end landing web platform with visual focus.",
+                    tags: ["React", "CSS3"],
+                    image: "/placeholder.svg"
+                  }
+                ].map((proj, i) => (
+                  <div key={i} className="group space-y-4">
+                    
+                    {/* Image frame */}
+                    <div className="aspect-[16/10] w-full bg-card overflow-hidden rounded-xl border border-border transition-all duration-300 group-hover:border-foreground/30">
+                      <img 
+                        src={proj.image} 
+                        alt={proj.title}
+                        className="w-full h-full object-cover filter grayscale contrast-110 opacity-60 group-hover:opacity-100 group-hover:scale-[1.01] transition-all duration-500"
+                        onError={(e) => {
+                          e.currentTarget.src = "/placeholder.svg"
+                        }}
+                      />
                     </div>
 
-                    <p className="text-xs text-muted-foreground leading-relaxed font-light">
-                      {proj.desc}
-                    </p>
-
-                    {/* Tags and Links */}
-                    <div className="flex items-center justify-between pt-3 border-t border-border/40">
-                      <div className="flex gap-2">
-                        {proj.tags.map((t, idx) => (
-                          <span key={idx} className="text-[9px] uppercase tracking-wider text-muted-foreground">
-                            #{t}
-                          </span>
-                        ))}
+                    {/* Metadata */}
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-baseline">
+                        <h4 className="text-sm sm:text-base font-normal text-foreground">
+                          {proj.title}
+                        </h4>
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                          {proj.category}
+                        </span>
                       </div>
 
-                      <div className="flex items-center gap-3">
-                        {proj.download ? (
-                          <a 
-                            href={proj.download}
-                            download
-                            className="text-[10px] uppercase tracking-wider text-foreground hover:underline flex items-center gap-1"
-                          >
-                            Download <ArrowUpRight size={10} />
-                          </a>
-                        ) : (
-                          <span className="text-[10px] uppercase tracking-wider text-foreground flex items-center gap-1 cursor-pointer hover:underline">
-                            Demo <ArrowUpRight size={10} />
-                          </span>
-                        )}
+                      <p className="text-xs text-muted-foreground leading-relaxed font-light">
+                        {proj.desc}
+                      </p>
+
+                      {/* Tags and Links */}
+                      <div className="flex items-center justify-between pt-3 border-t border-border/40">
+                        <div className="flex gap-2">
+                          {proj.tags.map((t, idx) => (
+                            <span key={idx} className="text-[9px] uppercase tracking-wider text-muted-foreground">
+                              #{t}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          {proj.download ? (
+                            <a 
+                              href={proj.download}
+                              download
+                              className="text-[10px] uppercase tracking-wider text-foreground hover:underline flex items-center gap-1"
+                            >
+                              Download <ArrowUpRight size={10} />
+                            </a>
+                          ) : (
+                            <span className="text-[10px] uppercase tracking-wider text-foreground flex items-center gap-1 cursor-pointer hover:underline">
+                              Demo <ArrowUpRight size={10} />
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
           </div>
         </section>
 
         {/* 5. Experience Section (Editorial Timeline, Clean Grid structure) */}
-        <section id="experience" className="py-24 border-t border-border">
-          <div className="grid md:grid-cols-12 gap-8 items-start">
+        <section id="experience" className="py-24 md:py-32 border-t border-border">
+          <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-start">
             
-            <div className="md:col-span-4">
-              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                04 / Experience
+            {/* Section Tag */}
+            <div className="md:col-span-3">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold block">
+                [04] Experience
               </span>
             </div>
 
-            <div className="md:col-span-8 space-y-12">
-              
+            {/* Timeline Rows */}
+            <div className="md:col-span-9 space-y-12">
               {[
                 {
                   role: "Senior Game Developer",
@@ -491,33 +527,32 @@ export default function Portfolio() {
                     {exp.company} — {exp.location}
                   </div>
 
-                  <p className="text-xs text-muted-foreground leading-relaxed font-light pt-2">
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-light pt-2">
                     {exp.desc}
                   </p>
                 </div>
               ))}
-
             </div>
 
           </div>
         </section>
 
         {/* 6. Contact Section (Minimal Flat Input Layout) */}
-        <section id="contact" className="py-24 border-t border-border">
-          <div className="grid md:grid-cols-12 gap-8 items-start">
+        <section id="contact" className="py-24 md:py-32 border-t border-border">
+          <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-start">
             
             {/* Left Contact Info */}
             <div className="md:col-span-4 space-y-6">
               <div>
-                <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                  05 / Contact
+                <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold block">
+                  [05] Contact
                 </span>
                 <h3 className="text-lg font-light text-foreground mt-4 leading-relaxed">
                   Let's construct something together.
                 </h3>
               </div>
 
-              <div className="space-y-2 text-xs text-muted-foreground font-light">
+              <div className="space-y-2 text-xs sm:text-sm text-muted-foreground font-light">
                 <p>basnetnavraj4@gmail.com</p>
                 <p>+977 9864726814</p>
                 <p>Nepalgunj, Nepal</p>
@@ -550,7 +585,7 @@ export default function Portfolio() {
                 
                 <div className="grid sm:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground">Name</label>
+                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground font-medium">Name</label>
                     <input 
                       type="text" 
                       name="name"
@@ -558,11 +593,11 @@ export default function Portfolio() {
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="Your Name"
-                      className="w-full bg-transparent border-t-0 border-x-0 border-b border-border rounded-none px-0 py-3 text-xs text-foreground focus:outline-none focus:border-foreground transition-colors placeholder-muted-foreground/50"
+                      className="w-full bg-transparent border-t-0 border-x-0 border-b border-border rounded-none px-0 py-3 text-xs text-foreground focus:outline-none focus:border-foreground transition-colors placeholder-muted-foreground/30"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground">Email</label>
+                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground font-medium">Email</label>
                     <input 
                       type="email" 
                       name="email"
@@ -570,13 +605,13 @@ export default function Portfolio() {
                       value={formData.email}
                       onChange={handleInputChange}
                       placeholder="you@example.com"
-                      className="w-full bg-transparent border-t-0 border-x-0 border-b border-border rounded-none px-0 py-3 text-xs text-foreground focus:outline-none focus:border-foreground transition-colors placeholder-muted-foreground/50"
+                      className="w-full bg-transparent border-t-0 border-x-0 border-b border-border rounded-none px-0 py-3 text-xs text-foreground focus:outline-none focus:border-foreground transition-colors placeholder-muted-foreground/30"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] uppercase tracking-widest text-muted-foreground">Subject</label>
+                  <label className="text-[9px] uppercase tracking-widest text-muted-foreground font-medium">Subject</label>
                   <input 
                     type="text" 
                     name="subject"
@@ -584,12 +619,12 @@ export default function Portfolio() {
                     value={formData.subject}
                     onChange={handleInputChange}
                     placeholder="Project Inquiry"
-                    className="w-full bg-transparent border-t-0 border-x-0 border-b border-border rounded-none px-0 py-3 text-xs text-foreground focus:outline-none focus:border-foreground transition-colors placeholder-muted-foreground/50"
+                    className="w-full bg-transparent border-t-0 border-x-0 border-b border-border rounded-none px-0 py-3 text-xs text-foreground focus:outline-none focus:border-foreground transition-colors placeholder-muted-foreground/30"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] uppercase tracking-widest text-muted-foreground">Message</label>
+                  <label className="text-[9px] uppercase tracking-widest text-muted-foreground font-medium">Message</label>
                   <textarea 
                     name="message"
                     required
@@ -597,7 +632,7 @@ export default function Portfolio() {
                     value={formData.message}
                     onChange={handleInputChange}
                     placeholder="Describe your inquiry..."
-                    className="w-full bg-transparent border-t-0 border-x-0 border-b border-border rounded-none px-0 py-3 text-xs text-foreground focus:outline-none focus:border-foreground transition-colors placeholder-muted-foreground/50 resize-none"
+                    className="w-full bg-transparent border-t-0 border-x-0 border-b border-border rounded-none px-0 py-3 text-xs text-foreground focus:outline-none focus:border-foreground transition-colors placeholder-muted-foreground/30 resize-none"
                   />
                 </div>
 
@@ -622,7 +657,7 @@ export default function Portfolio() {
 
       {/* Footer */}
       <footer className="border-t border-border bg-background py-12 mt-12 transition-colors duration-300">
-        <div className="max-w-3xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+        <div className="max-w-5xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
           <p>© {new Date().getFullYear()} NAV RAJ BASNET. All rights reserved.</p>
           <div className="flex gap-8">
             <Link href="/resume" className="hover:text-foreground transition-colors">Resume</Link>
