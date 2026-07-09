@@ -281,7 +281,7 @@ export default function Portfolio() {
                   { title: "SecurePassPro", category: "Desktop Utility", desc: "Encrypted desktop credentials vault built with C++ and Qt framework.", tags: ["C++", "Qt", "Crypto"], image: "/mockup.png", download: "/SecurePassPro_Setup.exe" },
                   { title: "CalcX", category: "Desktop Utility", desc: "Advanced developer utility and math compilation engine.", tags: ["C#", "WPF", "Math Engine"], image: "/calcx_image.png" },
                   { title: "Car Portal", category: "Game Dev", desc: "Open world modular physics sandbox environment built in Unity.", tags: ["Unity", "C#", "3D Physics"], image: "/xyz.jpg" },
-                  { title: "AnyX App", category: "Mobile", desc: "Cross-platform mobile state management dashboard.", tags: ["React Native", "Expo"], image: "/placeholder.svg" },
+                  { title: "BirthREM", category: "Mobile", desc: "Minimalist birthday tracking and push notification app built to schedule automated calendar alerts.", tags: ["Flutter", "Dart", "Local DB"], image: "/placeholder.svg" },
                   { title: "Task Management", category: "Web App", desc: "Streamlined workflow sprint client for distributed teams.", tags: ["Next.js", "TypeScript", "Tailwind"], image: "/placeholder.svg" },
                   { title: "Elite Social Club", category: "Web App", desc: "High-end landing platform with premium visual design.", tags: ["React", "CSS3"], image: "/placeholder.svg" },
                 ].map((proj, i) => (
