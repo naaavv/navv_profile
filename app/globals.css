@@ -4,9 +4,34 @@
 
 @layer base {
   :root {
+    /* Light Mode Variables */
+    --background: 0 0% 100%; /* #FFFFFF */
+    --foreground: 0 0% 0%; /* #000000 */
+    --card: 0 0% 98%; /* #FAFAFA */
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 98%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 0%; /* #000000 */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF */
+    --secondary: 0 0% 96%; /* #F5F5F5 */
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%; /* #737373 */
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 90%; /* #E5E5E5 */
+    --input: 0 0% 90%;
+    --ring: 0 0% 0%;
+    --radius: 12px;
+  }
+
+  .dark {
+    /* Dark Mode Variables */
     --background: 0 0% 0%; /* #000000 - pure black */
     --foreground: 0 0% 100%; /* #FFFFFF - pure white */
-    --card: 0 0% 4%; /* #0A0A0A - extremely dark grey */
+    --card: 0 0% 4%; /* #0A0A0A */
     --card-foreground: 0 0% 90%;
     --popover: 0 0% 4%;
     --popover-foreground: 0 0% 100%;
@@ -20,10 +45,9 @@
     --accent-foreground: 0 0% 0%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 11%; /* #1C1C1C - very thin borders */
+    --border: 0 0% 11%; /* #1C1C1C */
     --input: 0 0% 11%;
     --ring: 0 0% 100%;
-    --radius: 12px;
   }
 }
 
@@ -36,7 +60,7 @@
   }
   body {
     font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased transition-colors duration-300;
   }
 }
 
@@ -47,11 +71,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  @apply bg-background;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1C1C1C;
+  @apply bg-border;
   border-radius: 3px;
 }
 
