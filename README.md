@@ -12,7 +12,7 @@ Any changes you make to your deployed app will be automatically pushed to this r
 
 ## Deployment
 
-Your project is live at:
+Your project is live at: 
 
 **[https://vercel.com/nav0077s-projects/v0-nav-portfolio](https://vercel.com/nav0077s-projects/v0-nav-portfolio)**
 
